@@ -28,6 +28,11 @@ module.exports = function (app) {
 
   app.post("/api/users", function (req, res) {
     try {
+      if (req.get("X-Auth-Token")) {
+        res.status(400).json({error: "Cannot create account while logged in."})
+        return
+      }
+
       if (usernameToUserModelMap[req.body.username]) {
         res.status(400).json({error: "Username already exists."})
       } else if (!req.body.username || !req.body.password) {
@@ -39,7 +44,7 @@ module.exports = function (app) {
         res.json(userModel.toJSON())
       }
     } catch {
-      res.status(400).json({error: "Bad request, make sure you have username and password"})
+      res.status(400).json({error: "Bad request, invalid username/password. Must be 4-6 chars each."})
     }
   });
 

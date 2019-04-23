@@ -11,6 +11,10 @@ class UserModel {
 
   set username(value) {
     if (value !== null && value !== undefined) {
+      if (value.length < 4 || value.length > 6) {
+        throw Error("Invalid length.")
+      }
+
       this._username = value
     } else {
       throw Error("Missing param.")
@@ -23,6 +27,10 @@ class UserModel {
 
   set password(value) {
     if (value !== null && value !== undefined) {
+      if (value.length < 4 || value.length > 6) {
+        throw Error("Invalid length.")
+      }
+
       this._password = md5(value)
     } else {
       throw Error("Missing param.")
