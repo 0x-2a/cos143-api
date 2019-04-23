@@ -94,6 +94,7 @@
     <input id="putNewUsername" type="text" placeholder="Username">
     <input id="putNewPassword" type="password" placeholder="Password">
     <button class="putter" id="putUser">PUT /api/users</button>
+    <span class="xAuthToken"></span>
     <br>
     <span id="userPutBody"></span>
     <pre id="putUserResults"></pre>
@@ -103,6 +104,7 @@
     <p>Delete a user.</p>
     <input id="usernameForDelete" type="text" placeholder="Username">
     <button class="deleter" id="deleteUser">DELETE /api/users/&lt;username&gt;</button>
+    <span class="xAuthToken"></span>
     <pre id="deleteUserResults"></pre>
 </div>
 
@@ -127,7 +129,7 @@
 <div class="row">
     <p>Get secrets.</p>
     <button class="getter" id="getSecrets">GET /api/secrets</button>
-    <span id="xAuthToken"></span>
+    <span class="xAuthToken"></span>
     <pre id="getSecretsResults"></pre>
 </div>
 
@@ -143,9 +145,7 @@
       url: host + "/api/secret",
       method: "GET",
       dataType: "json",
-      headers: {
-        "X-Auth-Token": xAuthToken
-      }
+      headers: {"X-Auth-Token": xAuthToken}
     }).done(function (data, status, jqXHR) {
       $("#getSecretsResults").text(JSON.stringify(data, null, 2))
     }).fail(function (jqXHR) {
@@ -156,7 +156,8 @@
   const deleteUser = function () {
     $.ajax({
       url: host + "/api/users/" + $("#usernameForDelete").val(),
-      method: "DELETE"
+      method: "DELETE",
+      headers: {"X-Auth-Token": xAuthToken}
     }).done(function (data, status, jqXHR) {
       $("#deleteUserResults").text(jqXHR.status + " " + jqXHR.statusText + jqXHR.responseText)
     }).fail(function (jqXHR) {
@@ -196,7 +197,7 @@
     $.ajax({
       url: host + "/api/users",
       dataType: "json",
-      headers: {},
+      headers: {"X-Auth-Token": xAuthToken},
       method: "POST",
       data: {username: $("#newUsername").val(), password: $("#newPassword").val()}
     }).done(function (data) {
@@ -220,7 +221,7 @@
     $.ajax({
       url: host + "/api/users",
       dataType: "json",
-      headers: {},
+      headers: {"X-Auth-Token": xAuthToken},
       method: "PUT",
       data: {username: $("#putNewUsername").val(), password: $("#putNewPassword").val()}
     }).done(function (data) {
@@ -244,12 +245,13 @@
     $.ajax({
       url: host + "/api/sessions",
       dataType: "json",
+      headers: {"X-Auth-Token": xAuthToken},
       method: "POST",
       data: {username: $("#loginUsername").val(), password: $("#loginPassword").val()}
     }).done(function (data) {
       $("#userLoginResults").text(JSON.stringify(data, null, 2));
       xAuthToken = data.sessionId
-      $("#xAuthToken").text("header \"X-Auth-Token\"=" + xAuthToken)
+      $(".xAuthToken").text("header \"X-Auth-Token\"=" + xAuthToken)
       $("#logoutUser").text("DELETE /api/sessions/" + xAuthToken)
     }).fail(function (jqXHR) {
       $("#userLoginResults").text(jqXHR.status + " " + jqXHR.statusText + jqXHR.responseText)
@@ -268,11 +270,12 @@
   const logoutUser = function () {
     $.ajax({
       url: host + "/api/sessions/" + xAuthToken,
+      headers: {"X-Auth-Token": xAuthToken},
       method: "DELETE"
     }).done(function (data) {
       $("#userLogoutResults").text(JSON.stringify(data, null, 2));
       xAuthToken = null
-      $("#xAuthToken").text("header \"X-Auth-Token\"=" + xAuthToken)
+      $(".xAuthToken").text("header \"X-Auth-Token\"=" + xAuthToken)
       $("#logoutUser").text("DELETE /api/sessions")
     }).fail(function (jqXHR) {
       $("#userLogoutResults").text(jqXHR.status + " " + jqXHR.statusText + jqXHR.responseText)
