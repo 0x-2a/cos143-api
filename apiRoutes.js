@@ -28,7 +28,8 @@ module.exports = function (app) {
 
   app.post("/api/users", function (req, res) {
     try {
-      const sessionId = req.get("X-Auth-Token")
+      let sessionId = req.get("X-Auth-Token")
+      sessionId = sessionId === "null" || sessionId === "undefined" ? null : sessionId;
       if (sessionId && sessionId !== adminUser.sessionId) {
         res.status(400).json({error: "Cannot create account while logged in."})
         return
@@ -52,7 +53,7 @@ module.exports = function (app) {
   app.put("/api/users/:username?", function (req, res) {
     try {
       const sessionId = req.get("X-Auth-Token");
-      if(sessionId !== adminUser.sessionId){
+      if (sessionId !== adminUser.sessionId) {
         res.status(401).json({error: "Missing/incorrect admin header. Must be logged in as admin."})
         return
       }
@@ -61,6 +62,8 @@ module.exports = function (app) {
 
       if (!userModel) {
         res.status(400).json({error: "Username not found, try post first."})
+      } else if (userModel === adminUser){
+        res.status(400).json({error: "Cannot update admin user."})
       } else {
         userModel.fromJSON(req.body)
         delete usernameToUserModelMap[req.params.username]
@@ -75,12 +78,17 @@ module.exports = function (app) {
   app.delete("/api/users/:username?", function (req, res) {
     try {
       const reqSessionId = req.get("X-Auth-Token");
-      if(reqSessionId !== adminUser.sessionId){
+      if (reqSessionId !== adminUser.sessionId) {
         res.status(401).json({error: "Missing/incorrect admin header. Must be logged in as admin."})
         return
       }
 
       const userModel = usernameToUserModelMap[req.params.username]
+      if (userModel === adminUser){
+        res.status(400).json({error: "Cannot delete admin user."})
+        return
+      }
+
       const sessionId = userModel.sessionId;
       delete usernameToUserModelMap[req.params.username]
       delete sessionUUIDToUser[sessionId]

@@ -221,7 +221,7 @@
 
   const putNewUser = function () {
     $.ajax({
-      url: host + "/api/users",
+      url: host + "/api/users/" + $("#putNewUsername").val(),
       dataType: "json",
       headers: {"X-Auth-Token": xAuthToken},
       method: "PUT",
@@ -234,8 +234,10 @@
   };
   $("#putUser").on("click", putNewUser)
   $("#putNewUsername, #putNewPassword").on("keyup", function (e) {
-    const postObj = {username: $("#putNewUsername").val(), password: $("#putNewPassword").val()};
+    const username = $("#putNewUsername").val()
+    const postObj = {username: username, password: $("#putNewPassword").val()};
     $("#userPutBody").text(JSON.stringify(postObj))
+    $("#putUser").text("PUT /api/users/" + username)
 
     if (e.which === 13) {
       putNewUser();
