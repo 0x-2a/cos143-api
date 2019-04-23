@@ -14,7 +14,7 @@
         height: 100%;
         margin: 0;
         padding: 4px 0 0 0;
-        font-family: "Helvetica Neue";
+        font-family: "Helvetica Neue", serif;
     }
 
     div.row {
@@ -76,6 +76,7 @@
     <p>Get user data.</p>
     <input id="usernameForGetter" type="text" placeholder="Username">
     <button class="getter" id="getUserByUsername">GET /api/users</button>
+    <span class="xAuthToken"></span>
     <pre id="getUserByUsernameResults"></pre>
 </div>
 
@@ -84,6 +85,7 @@
     <input id="newUsername" type="text" placeholder="Username">
     <input id="newPassword" type="password" placeholder="Password">
     <button class="poster" id="postUser">POST /api/users</button>
+    <span class="xAuthToken"></span>
     <br>
     <span id="userPostBody"></span>
     <pre id="postUserResults"></pre>
