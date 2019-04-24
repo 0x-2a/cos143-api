@@ -25,14 +25,14 @@ node -e "console.log('Running Node.js ' + process.version)"
 ```
 
 #### Install project dependencies
-```shell
+```console
 cd cos143-api
 npm install
 ```
 
 ### Running
 Data stored is in-memory. Data is erased each time the server restarts.
-```shell
+```console
 cd cos143-api
 node app.js
 
@@ -41,6 +41,6 @@ node app.js
 ```
 
 ### Running on a custom port
-```shell
+```console
 PORT=8080 node app.js
 ```
