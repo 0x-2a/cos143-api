@@ -8,7 +8,7 @@ Below is for MacOS/Linux. Windows users, let me know how you like to install Nod
 
 
 #### Install NodeJS
-```shell
+```console
 # Install Node Version Manager (nvm)
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
 
