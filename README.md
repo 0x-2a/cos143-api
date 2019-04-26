@@ -33,6 +33,8 @@ npm install
 ### Running
 Data stored is in-memory. Data is erased each time the server restarts.
 ```console
+# Make sure you have git installed
+git clone git@github.com:y3sh/cos143-api.git
 cd cos143-api
 node app.js
 
