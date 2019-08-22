@@ -1,7 +1,7 @@
 .preview-page {margin-top: 8px !important;}  #readme > h3 {display:none;}
 @media print {
-  @page { margin: 1.5em; margin-top: 1.5em; }
-  body { margin: 1.5em; padding: 1.5em }
+  @page { margin: 1em; margin-top: 1em; }
+  body { margin: 1em; padding: 1em }
 }
 
 body {
