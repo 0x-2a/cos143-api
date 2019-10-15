@@ -31,7 +31,7 @@ module.exports = function (app) {
         });
         res.status(200).json();
       } else {
-        res.status(400).json({error: 'Username already exists.'});
+        res.status(400).json({error: 'body or tweet text not found'});
       }
     } catch {
       res.status(400).json({error: 'Bad request.'});
