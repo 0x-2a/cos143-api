@@ -46,3 +46,12 @@ node app.js
 ```console
 PORT=8080 node app.js
 ```
+
+### Deploy
+
+Install heroku CLI
+```console
+heroku login
+cd cos143-api
+git push heroku master
+```
